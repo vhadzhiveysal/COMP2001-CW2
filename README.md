@@ -12,6 +12,13 @@ Technologies
 This micro-service is built using the following technologies:
 
 Python: The primary programming language for building the micro-service.
+
 Flask: A lightweight web framework for building the REST API.
+
 SQL Server: The database used to store trail data.
+
 PyODBC: A Python library for connecting to SQL Server databases.
+
+Postman: API platform software
+
+Open app.py using Python, copy the url in cmd to postman. Then in app.py, add the parameters for each function listed and match the api method as well to run each command.
