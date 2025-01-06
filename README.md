@@ -16,7 +16,8 @@ This micro-service is built using the following technologies:
 **SQL Server**: The database used to store trail data.  
 **PyODBC**: A Python library for connecting to SQL Server databases.  
 **Postman**: API platform software.  
-**Microsoft ODBC Driver 18 for SQL Server**: DLL which connects to SQL Server. 
+**Microsoft ODBC Driver 18 for SQL Server**: DLL which connects to SQL Server.  
+**Docker**: Platform that delivers software in containers.  
 
 You will need these technologies to be able to run the solution.
 
@@ -33,10 +34,19 @@ Then navigate to the Body tab, and follow a template like this to add a new rout
 
 ```
 {
-  "Name": "TestTrail",
+  "Name": "Test Trail",
   "Length": 3.4,
   "EstTime": "01:00:00",
   "ElevationGain": 100
 }
 ```  
 ***Note: The `name` acts as a primary key in the routes table, therefore duplicates of names cannot exist in the table, and any effort to make it so will result in an error.***
+
+When deleting a route/trail, navigate to the Body tab, and follow a template like this to delete a route:  
+```
+{
+  "Name": "Test Trail"
+}
+```  
+
+When updating a route/trail, follow the same template as you would with adding a new route, but make sure the `Name` is the same as an existing route/trail.
