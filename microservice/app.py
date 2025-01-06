@@ -81,6 +81,79 @@ def add_route():
         print(f"Error adding route: {e}")  # Debug log
         return jsonify({"error": "Failed to add route"}), 500
 
+# Delete a route by name
+@app.route('/api/route', methods=['DELETE'])
+def delete_route():
+    if not request.is_json:
+        return jsonify({"error": "Invalid Content-Type. Expected application/json"}), 415
+
+    try:
+        data = request.get_json()
+        route_name = data.get('Name')
+
+        if not route_name:
+            return jsonify({"error": "Route name is required"}), 400
+
+        # Query to delete the route by name
+        query = "DELETE FROM CW1.Route WHERE Name = ?"
+        params = (route_name,)
+
+        result = execute_query(query, params, fetch_all=False)
+
+        if result is not None:
+            return jsonify({"message": f"Route '{route_name}' deleted successfully"}), 200
+        return jsonify({"error": "Failed to delete route"}), 500
+    except Exception as e:
+        print(f"Error deleting route: {e}")  # Debug log
+        return jsonify({"error": "Failed to delete route"}), 500
+
+@app.route('/api/route', methods=['PUT'])
+def update_route():
+    if not request.is_json:
+        return jsonify({"error": "Invalid Content-Type. Expected application/json"}), 415
+
+    try:
+        data = request.get_json()
+        route_name = data.get('Name')
+
+        if not route_name:
+            return jsonify({"error": "Route name is required"}), 400
+        
+        # Prepare fields to be updated
+        updates = []
+        params = []
+
+        # Check which fields are provided and build the update query dynamically
+        if 'Length' in data:
+            updates.append("Length = ?")
+            params.append(data['Length'])
+        
+        if 'EstTime' in data:
+            updates.append("EstTime = ?")
+            params.append(data['EstTime'])
+        
+        if 'ElevationGain' in data:
+            updates.append("ElevationGain = ?")
+            params.append(data['ElevationGain'])
+        
+        if not updates:
+            return jsonify({"error": "No fields to update provided"}), 400
+        
+        # Add the route name as the final parameter for the WHERE clause
+        update_query = f"UPDATE CW1.Route SET {', '.join(updates)} WHERE Name = ?"
+        params.append(route_name)  # This should be the last parameter
+
+        # Execute the query
+        result = execute_query(update_query, tuple(params), fetch_all=False)
+
+        if result is not None:
+            return jsonify({"message": f"Route '{route_name}' updated successfully"}), 200
+        return jsonify({"error": "Failed to update route"}), 500
+    except Exception as e:
+        print(f"Error updating route: {e}")  # Debug log
+        return jsonify({"error": "Failed to update route"}), 500
+
+
 
 
 # Get all classifications
