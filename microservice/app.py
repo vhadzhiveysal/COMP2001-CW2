@@ -30,7 +30,7 @@ def get_routes():
         print("Test query executed successfully")  # Debug log
 
         # Fetch routes
-        cursor.execute("SELECT * FROM CW1.Route")  # Update schema if necessary
+        cursor.execute("SELECT * FROM CW1.Route")
         print("Executed query: SELECT * FROM CW1.Route")  # Debug log
 
         routes = []
@@ -161,7 +161,7 @@ def update_route():
 def get_classifications():
     try:
         print("Executing query to fetch classifications...")  # Debug log
-        query = "SELECT * FROM CW1.Classification"  # Adjust schema if necessary
+        query = "SELECT * FROM CW1.Classification"
         classifications = execute_query(query)
 
         if classifications:
